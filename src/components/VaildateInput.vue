@@ -6,8 +6,12 @@
       v-model="inputRef.val"
       @blur="vaildateInput"
       class="form-control"
+      :class="{ 'is-invalid': inputRef.error }"
       id="exampleInputEmail1"
     />
+    <span v-if="inputRef.error" class="invalid-feedback">
+      {{ inputRef.message }}</span
+    >
   </div>
 </template>
 
@@ -34,7 +38,22 @@ export default defineComponent({
     });
 
     const vaildateInput = () => {
-      console.log("11");
+      if (props.rules) {
+        const allPassed = props.rules.every((rule) => {
+          let passed = true;
+          inputRef.message = rule.message;
+          switch (rule.type) {
+            case "required":
+              passed = inputRef.val.trim() !== "";
+              break;
+            case "email":
+              passed = emailReg.test(inputRef.val);
+              break;
+          }
+          return passed;
+        });
+        inputRef.error = !allPassed;
+      }
     };
 
     return { inputRef, vaildateInput };
