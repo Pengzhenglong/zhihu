@@ -3,7 +3,8 @@
   <div class="mb-3">
     <input
       type="text"
-      v-model="inputRef.val"
+      :value="inputRef.val"
+      @input="updateValue"
       @blur="validateInput"
       class="form-control"
       :class="{ 'is-invalid': inputRef.error }"
@@ -26,17 +27,22 @@ export type RulesProp = RuleProp[];
 export default defineComponent({
   props: {
     rules: Array as PropType<RulesProp>,
+    modelValue: String,
   },
-  setup(props) {
+  setup(props, context) {
     const emailReg =
       /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
     const inputRef = reactive({
-      val: "",
+      val: props.modelValue || "",
       error: false,
       message: "",
     });
-
+    const updateValue = (e: KeyboardEvent) => {
+      const targetValue = (e.target as HTMLInputElement).value;
+      inputRef.val = targetValue;
+      context.emit("update:modelValue", targetValue);
+    };
     const validateInput = () => {
       if (props.rules) {
         const allPassed = props.rules.every((rule) => {
@@ -56,7 +62,7 @@ export default defineComponent({
       }
     };
 
-    return { inputRef, validateInput };
+    return { inputRef, validateInput, updateValue };
   },
 });
 </script>
