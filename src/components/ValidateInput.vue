@@ -4,7 +4,7 @@
     <input
       type="text"
       v-model="inputRef.val"
-      @blur="vaildateInput"
+      @blur="validateInput"
       class="form-control"
       :class="{ 'is-invalid': inputRef.error }"
       id="exampleInputEmail1"
@@ -37,7 +37,7 @@ export default defineComponent({
       message: "",
     });
 
-    const vaildateInput = () => {
+    const validateInput = () => {
       if (props.rules) {
         const allPassed = props.rules.every((rule) => {
           let passed = true;
@@ -56,7 +56,7 @@ export default defineComponent({
       }
     };
 
-    return { inputRef, vaildateInput };
+    return { inputRef, validateInput };
   },
 });
 </script>
