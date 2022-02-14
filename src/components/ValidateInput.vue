@@ -2,7 +2,7 @@
 <template>
   <div class="mb-3">
     <input
-      type="text"
+     v-bind="$attrs"
       :value="inputRef.val"
       @input="updateValue"
       @blur="validateInput"
@@ -29,7 +29,10 @@ export default defineComponent({
     rules: Array as PropType<RulesProp>,
     modelValue: String,
   },
+  inheritAttrs :false,
   setup(props, context) {
+    console.log(context.attrs);
+
     const emailReg =
       /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
