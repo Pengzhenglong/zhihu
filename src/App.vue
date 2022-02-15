@@ -10,6 +10,7 @@
           v-model="emailVal"
           placeholder="请输入邮箱地址"
           type="text"
+          ref="inputRef"
         ></validate-input>
         {{ emailVal }}
       </div>
@@ -93,7 +94,8 @@ export default defineComponent({
   name: "App",
   components: { ColumnList, GlobalHeader, ValidateInput, ValidateForm },
   setup() {
-    const emailVal = ref("dragonPeng");
+    const inputRef = ref<any>();
+    const emailVal = ref("");
     const emailRules: RulesProp = [
       { type: "required", message: "电子邮箱地址不能为空" },
       { type: "email", message: "请输入正确的电子邮箱格式" },
@@ -103,7 +105,9 @@ export default defineComponent({
       { type: "required", message: "密码不能为空" },
     ];
     const onFormSubmit = (result: boolean) => {
-      console.log("123", result);
+      // console.log(inputRef.value);
+
+      console.log("result", result);
     };
     const emailRef = reactive({
       val: "",
@@ -131,6 +135,7 @@ export default defineComponent({
       emailRules,
       emailVal,
       onFormSubmit,
+      inputRef,
     };
   },
 });

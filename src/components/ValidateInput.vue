@@ -2,7 +2,7 @@
 <template>
   <div class="mb-3">
     <input
-     v-bind="$attrs"
+      v-bind="$attrs"
       :value="inputRef.val"
       @input="updateValue"
       @blur="validateInput"
@@ -17,8 +17,8 @@
 </template>
 
 <script  lang="ts">
-import { defineComponent, reactive, PropType } from "vue";
-
+import { defineComponent, reactive, PropType, onUnmounted } from "vue";
+import { emitter } from "./ValidateForm.vue";
 interface RuleProp {
   type: "required" | "email";
   message: string;
@@ -29,7 +29,7 @@ export default defineComponent({
     rules: Array as PropType<RulesProp>,
     modelValue: String,
   },
-  inheritAttrs :false,
+  inheritAttrs: false,
   setup(props, context) {
     console.log(context.attrs);
 
@@ -62,9 +62,13 @@ export default defineComponent({
           return passed;
         });
         inputRef.error = !allPassed;
+        return allPassed;
       }
+      return true;
     };
-
+    onUnmounted(() => {
+      emitter.emit("formItemCreated", validateInput);
+    });
     return { inputRef, validateInput, updateValue };
   },
 });
