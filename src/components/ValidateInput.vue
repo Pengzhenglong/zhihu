@@ -17,7 +17,7 @@
 </template>
 
 <script  lang="ts">
-import { defineComponent, reactive, PropType, onUnmounted } from "vue";
+import { defineComponent, reactive, PropType, onMounted } from "vue";
 import { emitter } from "./ValidateForm.vue";
 interface RuleProp {
   type: "required" | "email";
@@ -66,7 +66,8 @@ export default defineComponent({
       }
       return true;
     };
-    onUnmounted(() => {
+    // onMounted
+    onMounted(() => {
       emitter.emit("formItemCreated", validateInput);
     });
     return { inputRef, validateInput, updateValue };
