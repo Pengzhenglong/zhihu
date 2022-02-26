@@ -25,7 +25,7 @@ import { computed, defineComponent } from "vue";
 import { useStore } from "vuex";
 import { GlobalDataProps } from "../store/index";
 import { useRoute } from "vue-router";
-import { testData, testPosts } from "../testData";
+
 import PostList from "../components/PostList.vue";
 export default defineComponent({
   name: "ColumnDetail",
