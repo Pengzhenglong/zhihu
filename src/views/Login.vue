@@ -30,6 +30,7 @@
 </template>
 
 <script  lang="ts">
+import { useStore } from "vuex";
 import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import ValidateInput, { RulesProp } from "../components/ValidateInput.vue";
@@ -39,6 +40,7 @@ export default defineComponent({
   name: "Login",
   components: { ValidateInput, ValidateForm },
   setup() {
+    const store = useStore();
     const router = useRouter();
     const inputRef = ref<any>();
     const emailVal = ref("");
@@ -54,7 +56,8 @@ export default defineComponent({
       // console.log(inputRef.value);
       console.log("result", result);
       if (result) {
-        router.push({ name: "column", params: { id: 1 } });
+        router.push("/");
+        store.commit("login");
       }
     };
 
