@@ -13,7 +13,8 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('../views/Login.vue')
+      component: () => import('../views/Login.vue'),
+      meta: { redirectAlreadyLogin: true }
     },
     {
       path: '/column/:id',
@@ -23,13 +24,18 @@ const router = createRouter({
     {
       path: '/create',
       name: 'create',
-      component: () => import('../views/CreatePost.vue')
+      component: () => import('../views/CreatePost.vue'),
+      meta: { requiredLogin: true }
     }
   ]
 })
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'login' && !store.state.user.isLogin) {
+  console.log(to.meta);
+
+  if (to.meta.requiredLogin && !store.state.user.isLogin) {
     next({ name: 'login' })
+  } else if (to.meta.redirectAlreadyLogin && store.state.user.isLogin) {
+    next('/')
   } else {
     next()
   }
